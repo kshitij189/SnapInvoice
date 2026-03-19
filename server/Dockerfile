@@ -1,6 +1,5 @@
 # Build stage
-FROM golang:1.24.1-bookworm AS builder
-ENV GOTOOLCHAIN=go1.24.1
+FROM golang:1.25-bookworm AS builder
 WORKDIR /app
 COPY . .
 RUN CGO_ENABLED=0 go build -mod=vendor -o main .
