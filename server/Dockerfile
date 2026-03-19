@@ -2,7 +2,8 @@
 FROM golang:1.24.1-bookworm AS builder
 WORKDIR /app
 COPY . .
-RUN CGO_ENABLED=0 go build -mod=vendor -o main .
+RUN ls -la && ls -la vendor/
+RUN CGO_ENABLED=0 go build -mod=vendor -v -o main .
 
 # Run stage
 FROM debian:bookworm-slim
