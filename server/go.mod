@@ -1,6 +1,6 @@
 module snapinvoice-go
 
-go 1.26.1
+go 1.24.1
 
 require (
 	github.com/chromedp/cdproto v0.0.0-20250803210736-d308e07a266d
