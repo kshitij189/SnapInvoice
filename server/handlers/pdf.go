@@ -385,6 +385,11 @@ func generatePDFBytes(data map[string]interface{}) ([]byte, error) {
 					u.Host += ":80"
 				}
 			}
+
+			// 3. Fix Browserless v2 missing /chromium path
+			if strings.Contains(u.Host, "chrome.browserless.io") && (u.Path == "" || u.Path == "/") {
+				u.Path = "/chromium"
+			}
 			
 			remoteURL = u.String()
 		}
