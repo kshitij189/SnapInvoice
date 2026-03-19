@@ -1,9 +1,9 @@
 # Build stage
 FROM golang:1.24.1-bookworm AS builder
+ENV GOTOOLCHAIN=go1.24.1
 WORKDIR /app
 COPY . .
-RUN ls -la && ls -la vendor/
-RUN CGO_ENABLED=0 go build -mod=vendor -v -o main .
+RUN CGO_ENABLED=0 go build -mod=vendor -o main .
 
 # Run stage
 FROM debian:bookworm-slim
