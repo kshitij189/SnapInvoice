@@ -101,7 +101,9 @@ const InvoiceDetails = () => {
       enqueueSnackbar('Invoice sent successfully')
       setOpenSend(false)
     } catch (error) {
-      enqueueSnackbar('Failed to send invoice')
+      console.error(error)
+      const errorMessage = error.response?.data?.message || 'Failed to send invoice'
+      enqueueSnackbar(errorMessage)
     }
     setSendLoading(false)
   }
@@ -121,7 +123,9 @@ const InvoiceDetails = () => {
       const blob = new Blob([data], { type: 'application/pdf' })
       saveAs(blob, `${invoice.invoiceNumber || 'invoice'}.pdf`)
     } catch (error) {
-      enqueueSnackbar('Failed to download PDF')
+      console.error(error)
+      const errorMessage = error.response?.data?.message || 'Failed to download PDF'
+      enqueueSnackbar(errorMessage)
     }
     setDownloadLoading(false)
   }

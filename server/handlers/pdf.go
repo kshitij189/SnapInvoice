@@ -405,9 +405,11 @@ func generatePDFBytes(data map[string]interface{}) ([]byte, error) {
 			return err
 		}),
 	); err != nil {
+		log.Printf("PDF generation failed: %v", err)
 		return nil, fmt.Errorf("pdf generation error: %w", err)
 	}
 
+	log.Printf("PDF generated successfully, size: %d bytes", len(pdfBuffer))
 	return pdfBuffer, nil
 }
 
@@ -454,7 +456,8 @@ func SendPDF(w http.ResponseWriter, r *http.Request) {
 
 	pdfBytes, err := generatePDFBytes(data)
 	if err != nil {
-		jsonResponse(w, http.StatusInternalServerError, map[string]string{"message": fmt.Sprintf("Failed to send PDF: %s", err.Error())})
+		log.Printf("SendPDF: generatePDFBytes failed: %v", err)
+		jsonResponse(w, http.StatusInternalServerError, map[string]string{"message": fmt.Sprintf("Failed to generate PDF: %s", err.Error())})
 		return
 	}
 
@@ -473,7 +476,8 @@ func SendPDF(w http.ResponseWriter, r *http.Request) {
 
 	var emailBuf bytes.Buffer
 	if err := emailTmpl.Execute(&emailBuf, emailData); err != nil {
-		jsonResponse(w, http.StatusInternalServerError, map[string]string{"message": fmt.Sprintf("Failed to send PDF: %s", err.Error())})
+		log.Printf("SendPDF: Email template execution failed: %v", err)
+		jsonResponse(w, http.StatusInternalServerError, map[string]string{"message": fmt.Sprintf("Failed to prepare email: %s", err.Error())})
 		return
 	}
 
