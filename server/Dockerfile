@@ -1,8 +1,9 @@
 # Build stage
-FROM golang:1.24-bookworm AS builder
+FROM golang:1.24.1-bookworm AS builder
+ENV GOPROXY=https://proxy.golang.org,direct
 WORKDIR /app
 COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod download -x
 COPY . .
 RUN CGO_ENABLED=0 go build -o main .
 
