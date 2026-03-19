@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"net/smtp"
 	"net/textproto"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -366,6 +367,28 @@ func generatePDFBytes(data map[string]interface{}) ([]byte, error) {
 
 	remoteURL := os.Getenv("CHROME_REMOTE_URL")
 	if remoteURL != "" {
+		// Auto-fix common URL mistakes
+		u, err := url.Parse(remoteURL)
+		if err == nil {
+			// 1. Fix scheme
+			if u.Scheme == "http" {
+				u.Scheme = "ws"
+			} else if u.Scheme == "https" {
+				u.Scheme = "wss"
+			}
+			
+			// 2. Fix Browserless specific missing port
+			if strings.Contains(u.Host, "chrome.browserless.io") && !strings.Contains(u.Host, ":") {
+				if u.Scheme == "wss" {
+					u.Host += ":443"
+				} else {
+					u.Host += ":80"
+				}
+			}
+			
+			remoteURL = u.String()
+		}
+
 		log.Printf("Using remote browser: %s", remoteURL)
 		allocCtx, allocCancel = chromedp.NewRemoteAllocator(ctx, remoteURL)
 	} else {
