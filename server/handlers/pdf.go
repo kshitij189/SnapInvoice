@@ -417,12 +417,12 @@ func generatePDFBytes(data map[string]interface{}) ([]byte, error) {
 	html := buf.String()
 
 	var pdfBuffer []byte
+	// Use data URI approach - works reliably in all Chrome environments
+	dataURI := "data:text/html;charset=utf-8," + url.PathEscape(html)
 	if err := chromedp.Run(taskCtx,
-		chromedp.Navigate("about:blank"),
-		chromedp.ActionFunc(func(ctx context.Context) error {
-			return page.SetDocumentContent("", html).Do(ctx)
-		}),
+		chromedp.Navigate(dataURI),
 		chromedp.WaitReady("body"),
+		chromedp.Sleep(500*time.Millisecond),
 		chromedp.ActionFunc(func(ctx context.Context) error {
 			var err error
 			pdfBuffer, _, err = page.PrintToPDF().
