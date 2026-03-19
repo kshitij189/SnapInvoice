@@ -1,0 +1,6 @@
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+}

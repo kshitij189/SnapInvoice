@@ -1,0 +1,36 @@
+# Dependency directories
+**/node_modules/
+**/vendor/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+server/main
+*.exe
+*.o
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+.gemini/
+.agents/
+.agent/
+_agents/
+_agent/
+brain/
+logs/
+artifacts/
+temp/
+tmp/
+node_modules/
+package-lock.json
+*.log

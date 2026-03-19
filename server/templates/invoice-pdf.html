@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: #333;
+        line-height: 1.5;
+    }
+    .page {
+        padding: 40px;
+        position: relative;
+    }
+    .accent-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        margin-top: 10px;
+    }
+    .company-info {
+        max-width: 50%;
+    }
+    .company-name {
+        font-size: 20px;
+        font-weight: 700;
+        color: #1a1a2e;
+        margin-bottom: 5px;
+    }
+    .company-details {
+        color: #666;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+    .invoice-title {
+        text-align: right;
+    }
+    .invoice-type {
+        font-size: 28px;
+        font-weight: 700;
+        color: #6366f1;
+        text-transform: uppercase;
+    }
+    .invoice-number {
+        font-size: 13px;
+        color: #666;
+        margin-top: 5px;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 4px 16px;
+        border-radius: 20px;
+        color: white;
+        font-size: 11px;
+        font-weight: 600;
+        margin-top: 8px;
+        text-transform: uppercase;
+    }
+    .info-section {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .bill-to h3, .dates h3 {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #999;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+    .bill-to .client-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: #1a1a2e;
+    }
+    .bill-to .client-details {
+        color: #666;
+        font-size: 11px;
+        margin-top: 4px;
+        line-height: 1.6;
+    }
+    .dates {
+        text-align: right;
+    }
+    .dates .date-row {
+        margin-bottom: 6px;
+    }
+    .dates .date-label {
+        color: #999;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+    .dates .date-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 25px;
+    }
+    thead th {
+        background: #6366f1;
+        color: white;
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    thead th:first-child {
+        border-radius: 6px 0 0 0;
+    }
+    thead th:last-child {
+        border-radius: 0 6px 0 0;
+        text-align: right;
+    }
+    thead th.right {
+        text-align: right;
+    }
+    tbody td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #eee;
+        font-size: 11px;
+    }
+    tbody td.right {
+        text-align: right;
+    }
+    tbody tr.alt {
+        background: #f8f9fa;
+    }
+    .totals-section {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 25px;
+    }
+    .totals-box {
+        width: 280px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 16px;
+    }
+    .totals-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 0;
+        font-size: 12px;
+    }
+    .totals-row .label {
+        color: #666;
+    }
+    .totals-row .value {
+        font-weight: 600;
+        color: #333;
+    }
+    .totals-row.total {
+        border-top: 2px solid #6366f1;
+        margin-top: 6px;
+        padding-top: 10px;
+    }
+    .totals-row.total .label,
+    .totals-row.total .value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #6366f1;
+    }
+    .totals-row.balance {
+        background: #6366f1;
+        color: white;
+        margin: 8px -16px -16px;
+        padding: 10px 16px;
+        border-radius: 0 0 8px 8px;
+    }
+    .totals-row.balance .label,
+    .totals-row.balance .value {
+        color: white;
+        font-weight: 700;
+        font-size: 13px;
+    }
+    .notes-section {
+        margin-top: 20px;
+        padding: 15px;
+        border-left: 3px solid #6366f1;
+        background: #f8f9fa;
+        border-radius: 0 8px 8px 0;
+    }
+    .notes-section h3 {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #999;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+    }
+    .notes-section p {
+        font-size: 11px;
+        color: #666;
+        line-height: 1.6;
+    }
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #999;
+        font-size: 10px;
+    }
+</style>
+</head>
+<body>
+<div class="page">
+    <div class="accent-bar"></div>
+
+    <div class="header">
+        <div class="company-info">
+            <div class="company-name">{{.CompanyName}}</div>
+            <div class="company-details">
+                {{if .CompanyEmail}}{{.CompanyEmail}}<br>{{end}}
+                {{if .CompanyPhone}}{{.CompanyPhone}}<br>{{end}}
+                {{if .CompanyAddress}}{{.CompanyAddress}}<br>{{end}}
+                {{if .CompanyWebsite}}{{.CompanyWebsite}}{{end}}
+            </div>
+        </div>
+        <div class="invoice-title">
+            <div class="invoice-type">{{.InvoiceType}}</div>
+            <div class="invoice-number">#{{.InvoiceNumber}}</div>
+            {{if .Status}}
+            <div class="status-badge" style="background-color: {{.StatusColor}};">{{.Status}}</div>
+            {{end}}
+        </div>
+    </div>
+
+    <div class="info-section">
+        <div class="bill-to">
+            <h3>Bill To</h3>
+            <div class="client-name">{{.ClientName}}</div>
+            <div class="client-details">
+                {{if .ClientEmail}}{{.ClientEmail}}<br>{{end}}
+                {{if .ClientPhone}}{{.ClientPhone}}<br>{{end}}
+                {{if .ClientAddress}}{{.ClientAddress}}{{end}}
+            </div>
+        </div>
+        <div class="dates">
+            <div class="date-row">
+                <div class="date-label">Date Issued</div>
+                <div class="date-value">{{.CreatedAt}}</div>
+            </div>
+            <div class="date-row">
+                <div class="date-label">Due Date</div>
+                <div class="date-value">{{.DueDate}}</div>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th class="right">Qty</th>
+                <th class="right">Price</th>
+                <th class="right">Disc.</th>
+                <th class="right">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $i, $item := .Items}}
+            <tr{{if isEven $i}} class="alt"{{end}}>
+                <td>{{$item.ItemName}}</td>
+                <td class="right">{{printf "%.0f" $item.Quantity}}</td>
+                <td class="right">{{printf "%.2f" $item.UnitPrice}}</td>
+                <td class="right">{{printf "%.0f" $item.Discount}}%</td>
+                <td class="right">{{printf "%.2f" $item.Amount}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <div class="totals-section">
+        <div class="totals-box">
+            <div class="totals-row">
+                <span class="label">Subtotal</span>
+                <span class="value">{{.Currency}} {{.SubTotal}}</span>
+            </div>
+            <div class="totals-row">
+                <span class="label">VAT ({{printf "%.0f" .VAT}}%)</span>
+                <span class="value">{{.Currency}} {{.VATAmount}}</span>
+            </div>
+            <div class="totals-row total">
+                <span class="label">Total</span>
+                <span class="value">{{.Currency}} {{.Total}}</span>
+            </div>
+            <div class="totals-row">
+                <span class="label">Paid</span>
+                <span class="value">{{.Currency}} {{.TotalAmountReceived}}</span>
+            </div>
+            <div class="totals-row balance">
+                <span class="label">Balance Due</span>
+                <span class="value">{{.Currency}} {{.BalanceDue}}</span>
+            </div>
+        </div>
+    </div>
+
+    {{if .Notes}}
+    <div class="notes-section">
+        <h3>Notes</h3>
+        <p>{{.Notes}}</p>
+    </div>
+    {{end}}
+
+    <div class="footer">
+        Generated by SnapInvoice Invoice Management System
+    </div>
+</div>
+</body>
+</html>
